@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Home
-description: Simple documentation template for Github pages
+title: Kobalt by Cedric Beust
+description: A modern, versatile build system
 isHome: true
 ---
 
@@ -9,147 +9,108 @@ isHome: true
   <h1 id="overview" class="page-header">Overview</h1>
   
   <blockquote>
-    This is a Jekyll template I use for my GitHub projects documentations. It is heavily based on official Bootstrap documentation and is designed to be quickly deployed.
+    Kobalt is a build system inspired by Gradle and Maven. It reuses the best concepts from these two successful and popular build systems while adding a few modern features of its own.
   </blockquote>
 
   <h3 id="features">Features</h3>
 
-  <ul>
-    <li>Responsive Bootstrap theme</li>
-    <li>Automatic syntax highlight</li>
-    <li>Multi-page</li>
-    <li>Automatic menu</li>
-    <li>Configurable additional links</li>
-    <li>Github counters</li>
-    <li>Twitter &amp; Facebook buttons</li>
+  <ul class="features">
+    <li>Clean, minimal syntax for build files</li>
+    <li>Build file auto-completion in your IDE</li>
+    <li>Incremental tasks</li>
+    <li>Intuitive plug-in architecture</li>
   </ul>
   
-  <h3 id="examples">Examples</h3>
+  <h3 id="examples">Example: JCommander's entire build file</h3>
   
-  <ul>
-    <li><a href="http://mistic100.github.io/jQuery-highlightTextarea/">jQuery highlightTextarea</a></li>
-    <li><a href="http://mistic100.github.io/angular-smilies">AngularJS Smilies</a></li>
-    <li><a href="http://mistic100.github.io/jQuery-QueryBuilder">jQuery QueryBuilder</a></li>
-    <li><a href="http://mistic100.github.io/Bootstrap-Confirmation/">Bootstrap Confirmation</a></li>
-  </ul>
+{% highlight kotlin %}
+import com.beust.kobalt.*
+import com.beust.kobalt.plugin.java.*
+import com.beust.kobalt.plugin.packaging.*
+import com.beust.kobalt.plugin.publish.*
+ 
+val jcommander = project {
+    name = "jcommander"
+    group = "com.beust"
+    artifactId = name
+    version = "1.52"
+ 
+    dependenciesTest {
+        compile("org.testng:testng:6.9.5")
+    }
+ 
+    assemble {
+        mavenJars {
+        }
+    }
+ 
+    bintray {
+        publish = false
+    }
+}
+{% endhighlight %}
+
 </section>
 
 
 <section class="bs-docs-section">
   <h1 id="installation" class="page-header">Installation</h1>
 
-  <h2 id="install-jekyll">Install Jekyll</h2>
-  <p>Follow the <a href="https://help.github.com/articles/using-jekyll-with-pages">GitHub guide</a> to install Jekyll on your computer. The big steps are:</p>
+  <h3 id="install-jekyll">IntelliJ Plugin</h2>
+  <p>The easiest way to get started is to install the IntelliJ plugin. Search for Kobalt in Preferences -> Plugins -> Browse Repositories</p>
 
-{% highlight text %}
-apt-get install ruby ruby-dev
-gem install bundler
-git clone git://github.com/mistic100/jekyll-bootstrap-doc
-bundle install
-bundle exec jekyll serve
+  <h3 id="install-jekyll">Command-Line Install</h2>
+  <p>If you want to run your tests and builds from the command line, this is currently the most reliable way to install Kobalt.<p>
+    <p> Note that you must first install jq.  On MacOS use <code>brew install jq</code> and on Ubuntu try <code>sudo apt-get install jq</code></p>
+
+    <ol>
+      <li>Install kobalt</li>
+{% highlight bash %}
+LATEST_KOBALT_URL=`curl -s https://api.github.com/repos/cbeust/kobalt/releases/latest | jq -r ".assets[0] | .browser_download_url" `
+LATEST_KOBALT_ZIP=`echo "$LATEST_KOBALT_URL" | rev | cut -d / -f 1 | rev`
+LATEST_KOBALT=`echo "$LATEST_KOBALT_ZIP" | sed 's/.zip//'
+
+mkdir -p ~/.kobalt/wrapper/dist/
+cd ~/.kobalt/wrapper/dist/
+curl -LO $LATEST_KOBALT_URL
+unzip -o $LATEST_KOBALT_ZIP
+chmod +x $LATEST_KOBALT/bin/kobaltw
+export PATH=~/.kobalt/wrapper/dist/$LATEST_KOBALT/bin:$PATH
 {% endhighlight %}
+    <li>Go into your project's directory</li>
+    <li>Initialize your project as a Kobalt project.  This will install kobaltw (wrapper) in your project and create the <code>kobalt/src/Build.kt</code> file
+{% highlight bash %}
+kobaltw --init kotlin
+{% endhighlight %}
+    </li>
+    <li>Ensure you've got the Kobalt Intellij plugin installed (v1.110 or better)</li>
+    <li>Import into IntelliJ
+      <p>File -> New -> Project from existing sources -> (your project's path) -> Import project from external model (Kobalt)
+  Select option "use auto-import"</p>
+    </li>
+    <li>You can now use the refresh/sync icon in the kobalt sidebar tool (shows up on far right, below Maven Projects on my IDE) to get your dependencies configured in IntelliJ.</li>
+</ol>
 
-  <h2 id="configuration">Configuration</h2>
-  <p>Adapt the <code>_config.yml</code> file to your project.</p>
+<div class="panel panel-default">
+  <div class="panel-heading">Notes</div>
+  <div class="panel-body">
+    <ul>
+      <li> You may get this error message when you first import the project b/c Kotlin will not be configured
+          <code>AssertionError: Kotlin library should exists when adding sources root</code>
+      <li> This happens because your source folders have been marked as such but you have not yet configured Kotlin java for the project
+      <li> You can fix the error by using the configure Kotlin dialog that will usually show up under the error message or by going to tools -> Kotlin -> Configure Kotlin in project
+    </ul>
+</div>
+</div>
 
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th style="width: 130px;">Name</th>
-          <th>description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>name</td>
-          <td>Name of the project.</td>
-        </tr>
-        <tr>
-          <td>version</td>
-          <td>Current version of the project</td>
-        </tr>
-        <tr>
-          <td>downloadUrl</td>
-          <td>URL of the download button</td>
-        </tr>
-        <tr>
-          <td>license</td>
-          <td>License of the project</td>
-        </tr>
-        <tr>
-          <td>licenseUrl</td>
-          <td>URL of the license text</td>
-        </tr>
-        <tr>
-          <td>headerLinks</td>
-          <td>List of links to display on the right of the top menu. Each item must contain <code>title</code> and <code>url</code> keys</td>
-        </tr>
-        <tr>
-          <td>footerLinks</td>
-          <td>List of links to display on the bottom of the page. Each item must contain <code>title</code> and <code>url</code> keys</td>
-        </tr>
-        <tr>
-          <td>header</td>
-          <td>Configuration of the header, two colors gradient and boolean to activate or deactivate <a href="http://qrohlf.com/trianglify/">Trianglify</a> generator</td>
-        </tr>
-        <tr>
-          <td>analytics</td>
-          <td>Google analytics identifiers. Provide <code>account</code> and <code>domain</code> or leave empty to deactivate</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Social buttons</h3>
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th style="width: 130px;">Name</th>
-          <th>description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>githubButton</td>
-          <td>Data used to generate <a href="http://ghbtns.com/">GitHub Buttons</a>. Provide <code>user</code> and <code>repo</code></td>
-        </tr>
-        <tr>
-          <td>twitter.enabled</td>
-          <td>Enable or disable Twitter "Tweet" button</td>
-        </tr>
-        <tr>
-          <td>twitter.via</td>
-          <td>Account linked to "Tweet" button</td>
-        </tr>
-        <tr>
-          <td>twitter.hash</td>
-          <td>Default hashtags for the "Tweet" button</td>
-        </tr>
-        <tr>
-          <td>twitter.account</td>
-          <td>Account for Twitter "Follow" button. Leave empty to deactivate</td>
-        </tr>
-        <tr>
-          <td>facebook.enabled</td>
-          <td>Enable or disable Facebook "Like" &amp; "Share" buttons</td>
-        </tr>
-        <tr>
-          <td>facebook.profileUrl</td>
-          <td>Profile for Facebook "Follow" button. Leave empty to deactivate</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </section>
 
 
 <section class="bs-docs-section">
   <h1 id="usage" class="page-header">Usage</h1>
 
-  <h2 id="pages">Pages</h2>
-  <p>The main page is the <code>index.html</code> file. You can also add additional pages by creating <code>.html</code> files in the root folder or in any sub-folder. Each page file must begins with a template declaration:</p>
+  <h2 id="pages">Edit kobalt/src/Build.kt</h2>
+  <p>Unless your project is new, the build file generated by default will need some editing before you can build, so take a look at it and adjust whatever is necessary (e.g. package name, version, dependencies).</p>
 
 {% highlight html %}
 ---
