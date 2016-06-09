@@ -9,6 +9,8 @@
 
 {% highlight kotlin %}
 import com.beust.kobalt.*
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 fun getVersion() = ZonedDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE)
 
