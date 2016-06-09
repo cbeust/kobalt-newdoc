@@ -1,7 +1,7 @@
 ## Build.kt contents
 
 * #### Imports
-* #### Project declaration(s) using the project <i>directive</i>
+* #### Project declaration(s) using the project directive
 * #### Since it's a Kotlin file, it can also contain any class or function you need
 
 
@@ -10,11 +10,13 @@
 {% highlight kotlin %}
 import com.beust.kobalt.*
 
+fun getVersion() = ZonedDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE)
+
 val kobalt = project {
     name = "kobalt"
     group = "com.beust"
     artifactId = name
-    version = "0.62"
+    version = getVersion()
     directory = homeDir("kotlin/kobalt")
 }
 {% endhighlight %}
@@ -23,11 +25,11 @@ Note: the output of the project <i>directive</i> is assigned to the val <code>ko
 
 -----
 
-## project Directive
+## project directive
 
-#### Fields
+#### Parameters
 
-This directive accepts these **required** and optional fields
+This directive accepts these **required** and optional parameters
 
 - **name**
 - group
@@ -42,6 +44,8 @@ This directive accepts these **required** and optional fields
 
 Within this directive you can use these other directives:
 
+- sourceDirectories
+- sourceDirectoriesTest
 - dependencies
 - dependenciesTest
 - application
@@ -49,44 +53,48 @@ Within this directive you can use these other directives:
 
 -----
 
-## dependencies Directive
+## dependencies directive
 
-#### Fields
+#### Parameters
 
-This directive accepts these **required** and optional fields
+This directive accepts these **required** and optional parameters
 
-#### Directives
-
-
------
-
-## dependenciesTest Directive
-
-#### Fields
-
-This directive accepts these **required** and optional fields
+- compile()
 
 #### Directives
 
 
 -----
 
-## application Directive
+## dependenciesTest directive
 
-#### Fields
+#### Parameters
 
-This directive accepts these **required** and optional fields
+This directive accepts these **required** and optional parameters
+
+- compile()
 
 #### Directives
 
 
 -----
 
-## assemble Directive
+## application directive
 
-#### Fields
+#### Parameters
 
-This directive accepts these **required** and optional fields
+This directive accepts these **required** and optional parameters
+
+#### Directives
+
+
+-----
+
+## assemble directive
+
+#### Parameters
+
+This directive accepts these **required** and optional parameters
 
 #### Directives
 
