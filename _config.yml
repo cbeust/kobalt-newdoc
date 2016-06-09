@@ -1,7 +1,7 @@
 # name of the software
 name: Kobalt Build Tool
 # current version of the software
-version: 0.799
+version: 0.811
 # url of the download button
 downloadUrl: https://github.com/cbeust/kobalt/releases
 # licence of the software
