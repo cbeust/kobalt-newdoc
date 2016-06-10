@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Kobalt Build Tool</title>
+
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/css/docs.min.css" rel="stylesheet">
+  <link href="/assets/css/style.css" rel="stylesheet">
+
+  <style>
+    #content {
+      background:#0047AB;
+      background:linear-gradient(135deg, #0047AB, #00275E);
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js"></script>
+  <script src="/assets/js/docs.min.js"></script>
+</head>
+
+<body>
+  <!-- Main navigation
+  =========================================== -->
+  <header class="navbar navbar-static-top bs-docs-nav" id="top">
+    <div class="container">
+      <div class="navbar-header" role="banner">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/index.html">Kobalt Build Tool</a>
+      </div>
+      <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+        <ul class="nav navbar-nav">
+        
+        
+          
+          <li >
+            <a href="/buildkt.html">Build File Reference</a>
+          </li>
+          
+        
+          
+        
+          
+        
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+        
+          <li>
+            <a href="https://github.com/cbeust/kobalt">GitHub</a>
+          </li>
+        
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- Header
+  =========================================== -->
+  
+  <div class="bs-docs-masthead" id="content">
+    <div class="container">
+      <h1 class="home-title">Kobalt Build Tool</h1>
+      <p class="lead">A modern, versatile build system</p>
+      <p class="lead">
+        <a href="https://github.com/cbeust/kobalt/releases" class="btn btn-outline-inverse btn-lg">Download</a>
+      </p>
+      <p class="version">Currently v0.811</p>
+    </div>
+  </div>
+
+  
+
+  <div class="container bs-docs-container">
+    <div class="row">
+      <!-- Content
+      =========================================== -->
+      <div class="col-md-9" role="main">
+        <section class="bs-docs-section">
+  <h1 id="overview" class="page-header">Overview</h1>
+  
+  <blockquote>
+    Kobalt is a build system inspired by Gradle and Maven. It reuses the best concepts from these two successful and popular build systems while adding a few modern features of its own.
+  </blockquote>
+
+  <h3 id="features">Features</h3>
+
+  <ul class="features">
+    <li>Clean, minimal syntax for build files</li>
+    <li>Build file auto-completion in your IDE</li>
+    <li>Incremental tasks</li>
+    <li>Intuitive plug-in architecture</li>
+  </ul>
+  
+  <h3 id="examples">Example: JCommander's entire build file</h3>
+  
+<figure class="highlight"><pre><code class="language-kotlin" data-lang="kotlin"><span class="lineno"> 1</span> <span class="k">import</span> <span class="nn">com.beust.kobalt.*</span>
+<span class="lineno"> 2</span> <span class="k">import</span> <span class="nn">com.beust.kobalt.plugin.java.*</span>
+<span class="lineno"> 3</span> <span class="k">import</span> <span class="nn">com.beust.kobalt.plugin.packaging.*</span>
+<span class="lineno"> 4</span> <span class="k">import</span> <span class="nn">com.beust.kobalt.plugin.publish.*</span>
+<span class="lineno"> 5</span>  
+<span class="lineno"> 6</span> <span class="k">val</span> <span class="py">jcommander</span> <span class="p">=</span> <span class="n">project</span> <span class="p">{</span>
+<span class="lineno"> 7</span>     <span class="n">name</span> <span class="p">=</span> <span class="s">&quot;jcommander&quot;</span>
+<span class="lineno"> 8</span>     <span class="n">group</span> <span class="p">=</span> <span class="s">&quot;com.beust&quot;</span>
+<span class="lineno"> 9</span>     <span class="n">artifactId</span> <span class="p">=</span> <span class="n">name</span>
+<span class="lineno">10</span>     <span class="n">version</span> <span class="p">=</span> <span class="s">&quot;1.52&quot;</span>
+<span class="lineno">11</span>  
+<span class="lineno">12</span>     <span class="n">dependenciesTest</span> <span class="p">{</span>
+<span class="lineno">13</span>         <span class="n">compile</span><span class="p">(</span><span class="s">&quot;org.testng:testng:6.9.5&quot;</span><span class="p">)</span>
+<span class="lineno">14</span>     <span class="p">}</span>
+<span class="lineno">15</span>  
+<span class="lineno">16</span>     <span class="n">assemble</span> <span class="p">{</span>
+<span class="lineno">17</span>         <span class="n">mavenJars</span> <span class="p">{</span>
+<span class="lineno">18</span>         <span class="p">}</span>
+<span class="lineno">19</span>     <span class="p">}</span>
+<span class="lineno">20</span>  
+<span class="lineno">21</span>     <span class="n">bintray</span> <span class="p">{</span>
+<span class="lineno">22</span>         <span class="n">publish</span> <span class="p">=</span> <span class="k">false</span>
+<span class="lineno">23</span>     <span class="p">}</span>
+<span class="lineno">24</span> <span class="p">}</span></code></pre></figure>
+
+</section>
+
+
+<section class="bs-docs-section">
+  <h1 id="installation" class="page-header">Installation</h1>
+
+  <h3 id="install-jekyll">IntelliJ Plugin</h2>
+  <p>The easiest way to get started is to install the IntelliJ plugin. Search for Kobalt in Preferences -> Plugins -> Browse Repositories</p>
+
+  <h3 id="install-jekyll">Command-Line Install</h2>
+  <p>If you want to run your tests and builds from the command line, this is currently the most reliable way to install Kobalt.<p>
+    <p> Note that you must first install jq.  On MacOS use <code>brew install jq</code> and on Ubuntu try <code>sudo apt-get install jq</code></p>
+
+    <ol>
+      <li>Install kobalt</li>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">LATEST_KOBALT_URL</span><span class="o">=</span><span class="sb">`</span>curl -s https://api.github.com/repos/cbeust/kobalt/releases/latest <span class="p">|</span> jq -r <span class="s2">&quot;.assets[0] | .browser_download_url&quot;</span> <span class="sb">`</span>
+<span class="nv">LATEST_KOBALT_ZIP</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;$LATEST_KOBALT_URL&quot;</span> <span class="p">|</span> rev <span class="p">|</span> cut -d / -f <span class="m">1</span> <span class="p">|</span> rev<span class="sb">`</span>
+<span class="nv">LATEST_KOBALT</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;$LATEST_KOBALT_ZIP&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/.zip//&#39;</span>
+
+mkdir -p ~/.kobalt/wrapper/dist/
+<span class="nb">cd</span> ~/.kobalt/wrapper/dist/
+curl -LO <span class="nv">$LATEST_KOBALT_URL</span>
+unzip -o <span class="nv">$LATEST_KOBALT_ZIP</span>
+chmod +x <span class="nv">$LATEST_KOBALT</span>/bin/kobaltw
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/.kobalt/wrapper/dist/<span class="nv">$LATEST_KOBALT</span>/bin:<span class="nv">$PATH</span></code></pre></figure>
+    <li>Go into your project's directory</li>
+    <li>Initialize your project as a Kobalt project.  This will install kobaltw (wrapper) in your project and create the <code>kobalt/src/Build.kt</code> file
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kobaltw --init kotlin</code></pre></figure>
+    </li>
+    <li>Ensure you've got the Kobalt Intellij plugin installed (v1.110 or better)</li>
+    <li>Import into IntelliJ
+      <p>File -> New -> Project from existing sources -> (your project's path) -> Import project from external model (Kobalt)
+  Select option "use auto-import"</p>
+    </li>
+    <li>You can now use the refresh/sync icon in the kobalt sidebar tool (shows up on far right, below Maven Projects on my IDE) to get your dependencies configured in IntelliJ.</li>
+</ol>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Notes</div>
+  <div class="panel-body">
+    <ul>
+      <li> You may get this error message when you first import the project b/c Kotlin will not be configured
+          <code>AssertionError: Kotlin library should exists when adding sources root</code>
+      <li> This happens because your source folders have been marked as such but you have not yet configured Kotlin java for the project
+      <li> You can fix the error by using the configure Kotlin dialog that will usually show up under the error message or by going to tools -> Kotlin -> Configure Kotlin in project
+    </ul>
+</div>
+</div>
+
+</section>
+
+
+<section class="bs-docs-section">
+  <h1 id="usage" class="page-header">Usage</h1>
+
+  The most common things you'll do with Kobalt are
+  <ul>
+    <li><h3 id="editBuild">Edit the build file</h3>
+      <p>Unless your project is new, the build file generated by default will need some editing before you can build, so take a look at <code>kobalt/src/Build.kt</code> and adjust whatever is necessary (e.g. package name, version, dependencies).</p>
+      <p>For details, check out the <a href="/buildkt.html">Build File Reference</a></p>
+    </li>
+    <li><h3 id="runTests">Run tests</h3>
+      <p>Use <code>./kobaltw test</code> from the command line or the Kobalt Intellij plugin<p>
+    </li>
+    <li><h3 id="runApp">Run your app</h3>
+      <p>If you've configured a main class with the <code>application</code> directive, use <code>./kobaltw run</code> from the command line or the Kobalt intellij plugin<p>
+    </li>
+    <li><h3 id="assembleJar">Assemble a jar file</h3>
+      <p>Use <code>./kobaltw assemble</code> from the command line or the Kobalt intellij plugin<p>
+    </li>
+    <li><h3 id="uploadMaven">Upload to Maven Central, etc</h3>
+      <p>JCenter and Bintray support is also included in Kobalt</p>
+    </li>
+    <li><h3 id="usePlugins">Use or create plugins</h3>
+    </li>
+</section>
+
+<section class="bs-docs-section">
+  <h1 id="about" class="page-header">About</h1>
+
+  <h3 id="editBuild">License</h3>
+  <p>
+    Kobalt is <a href="https://github.com/cbeust/kobalt/blob/master/LICENSE.txt">licensed under Apache 2.0</a>
+  </p>
+
+  <h3 id="editBuild">Author</h3>
+  <p>Kobalt is written by <a href="http://beust.com/weblog/">Cédric Beust</a>.  <a href="https://github.com/dmitry-zhuravlev?tab=repositories">Dmitry Zhuravlev</a> contributed many improvements to the IntelliJ plugin.
+
+  <h3 id="editBuild">Status</h3>
+  <p>Kobalt works very well for most JVM and Android apps but given its rapid pace of change, there can be surprises.
+    <a href="https://github.com/cbeust/kobalt/issues">Issues are tracked on github</a>
+  </p>
+
+  <h3 id="editBuild">Working on Kobalt</h3>
+  <ol>
+    <li><h4>Edit kobalt.version</h4>
+      <p>
+        First of all, edit the file <code>src/main/resources/kobalt.properties</code> and set it to a nonexistent version. For example, if the current version is <code>0.812</code>, set it to <code>0.813</code>.
+      </p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="na">kobalt.version</span><span class="o">=</span><span class="s">0.400</span></code></pre></figure>
+      <p>
+        When you launch Kobalt from IDEA with a nonexistent version, Kobalt will show a message saying that it couldn't locate that version and instead, it will use the classes generated by IDEA. This way, you will always be running the files that you just modified with IDEA. On start up, Kobalt will display a message looking like:
+      </p>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Couldn&#39;t find .../kobalt-0.400.jar, using ...</code></pre></figure>
+
+      <p>
+        Note that at the moment, Kobalt expects to be located in <code>$HOME/kotlin/kobalt</code>.
+      </p>
+    </li>
+    <li><h4>Launch configuration</h4>
+      <p>
+        Kobalt's main class is com.beust.kobalt.MainKt. Here is a typical launch configuration for IntelliJ IDEA:
+      </p>
+      <div class="image-wrapper" >
+        <img src="/images/launch-configuration.png"/>
+      </div>
+      A few observations:
+      <ul>
+        <li>You can ask Kobalt to build external projects by specifying a non-empty "Working Directory".
+        <li>The default log level is 1. 2 is useful for debugging and 3 will be extremely verbose.
+        <li>Another command line parameter worth of notice is <code>--dev</code>, which will add the class name and thread information to each log line.
+        <li>Checking the "Single instance" box is useful to avoid duplicating these launch configurations.
+      </ul>
+    </li>
+  </ol>
+
+</section>
+      </div>
+
+      <!-- Page navigation
+      =========================================== -->
+      <div class="col-md-3" role="complementary">
+        <div class="bs-docs-sidebar hidden-print">
+          <ul class="nav bs-docs-sidenav">
+          </ul>
+          <a class="back-to-top" href="#top">
+            <i class="glyphicon glyphicon-chevron-up"></i> Back to top
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer
+  =========================================== -->
+  <footer class="bs-docs-footer" role="contentinfo">
+    <div class="container">
+      <div class="bs-docs-social">
+        <ul class="bs-docs-social-buttons">
+        
+          <li>
+            <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=cbeust&amp;repo=kobalt&amp;type=watch&amp;count=true" width="90" height="20" title="Star on GitHub"></iframe>
+          </li>
+          <li>
+            <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=cbeust&amp;repo=kobalt&amp;type=fork&amp;count=true" width="90" height="20" title="Fork on GitHub"></iframe>
+          </li>
+        
+        
+        
+        
+        
+        </ul>
+      </div>
+
+      <p>
+        Licensed under <a href="http://www.apache.org/licenses/" target="_blank">Apache 2.0 License</a>,
+        documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+      </p>
+      <p>
+        Documentation template by <a href="http://getbootstrap.com">Bootstrap team</a>,
+        generated with <a href="https://github.com/mistic100/jekyll-bootstrap-doc">Jekyll Bootstrap Doc</a>
+      </p>
+
+      <ul class="bs-docs-footer-links muted">
+        <li>Currently v0.811</li>
+      
+        <li>&middot;</li>
+        <li><a href="https://github.com/cbeust/kobalt">GitHub</a></li>
+      
+        <li>&middot;</li>
+        <li><a href="https://github.com/cbeust/kobalt/issues?state=open">Issues</a></li>
+      
+      </ul>
+    </div>
+  </footer>
+
+
+  <!-- Async scripts
+  =========================================== -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.1.2/trianglify.min.js"></script>
+  <script>trianglify('#0047AB', '#00275E');</script>
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
