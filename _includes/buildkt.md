@@ -7,7 +7,7 @@
 
 #### Example
 
-{% highlight kotlin %}
+{% highlight scala %}
 import com.beust.kobalt.*
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
